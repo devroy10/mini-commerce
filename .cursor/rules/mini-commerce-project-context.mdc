@@ -1,0 +1,48 @@
+# Mini-Commerce — Project Context & Standards
+
+This project is a Next.js 14 (App Router) frontend-only e-commerce prototype using TypeScript, React Query, Zustand, and Tailwind CSS. Data and state persist via localStorage. Hosted via Vercel.
+
+## Code Style & Architecture
+
+- Use functional React components and hooks; no class components.
+- Strict TypeScript: avoid `any`, prefer explicit types.
+- Variable naming: camelCase for functions/variables, PascalCase for components.
+- Prefer React.memo and lazy()/Suspense for performance.
+- Use `next/image` for optimized images.
+
+## Libraries & Patterns
+
+- Fetch and cache product data with React Query.
+- Manage cart state via Zustand with localStorage persistence.
+- Style UI exclusively using Tailwind CSS.
+- Use `next/link` for navigation.
+- Use built-in React form handling (no external libs) for cart and checkout.
+
+## Directory Structure
+
+- `src/app` — Next.js App Router pages
+- `src/components` — Reusable UI components
+- `src/store` — Zustand stores
+- `src/api` — React Query hooks for fetching
+- `src/styles` — Tailwind config and shared styles
+
+## Testing Guidelines
+
+- Write unit tests with Jest + React Testing Library (80% coverage min).
+- Use Playwright for end-to-end checkout flow.
+
+## Error & UX Handling
+
+- Wrap async operations in try/catch.
+- Show user-friendly error messages on fetch/cart failures.
+- Add alt text on images, semantic HTML, keyboard-accessible modals.
+
+## Commit & QA Practices
+
+- Commit frequently and ensure ESLint + Prettier pass.
+- AI should create unit tests for new features or bug fixes.
+  description:
+  globs:
+  alwaysApply: false
+
+---

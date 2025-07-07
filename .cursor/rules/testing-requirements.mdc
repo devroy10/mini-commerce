@@ -1,0 +1,12 @@
+# Testing Requirements for Mini-Commerce
+
+- At least one of:
+  - Component Test using Jest + React Testing Library
+  - E2E Test using Playwright (happy path)
+- Tests must be passing
+- Linting (`eslint`) and formatting (`prettier`) must pass
+  description:
+  globs:
+  alwaysApply: false
+
+---
