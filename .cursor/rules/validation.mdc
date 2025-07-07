@@ -1,0 +1,9 @@
+---
+description: Enforces the use of Zod for all data validation within the API directory. Requires that all return types are defined using Zod schemas, and that TypeScript types generated from these schemas are exported for type safety and consistency.
+alwaysApply: false
+---
+In API directory:
+
+Use zod for all validation
+Define return types with zod schemas
+Export types generated from schemas
