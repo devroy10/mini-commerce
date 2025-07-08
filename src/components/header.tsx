@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
+// import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { MobileNavMenu } from "@/components/mobile-nav-menu"
 import { ShoppingCart } from "lucide-react"
 import { useCartStore } from "../stores/cart-store"
@@ -41,7 +41,7 @@ export function Header() {
 
             <div className="flex items-center space-x-4">
               {/* Theme Toggle */}
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
 
               {/* Cart Icon */}
               <Link href="/cart">
@@ -66,7 +66,7 @@ export function Header() {
 
           {/* Mobile Navigation */}
           <div className="md:hidden flex items-center space-x-2">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
             <Link href="/cart">
               <Button variant="ghost" size="sm" className="relative hover:bg-gray-100 dark:hover:bg-licorice/70">
                 <ShoppingCart className="h-5 w-5 text-gray-700 dark:text-silver" />

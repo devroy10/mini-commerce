@@ -1,11 +1,11 @@
-import { BadgeCustom } from "@/components/ui/badge-custom"
+import { BadgeCustom } from '@/components/ui/badge-custom';
 
 export function HeroSection() {
   return (
-    <div className="relative bg-gradient-to-r from-gray-100 to-gray-200 dark:from-licorice dark:to-night rounded-3xl mx-4 mb-8 overflow-hidden transition-colors">
-      <div className="absolute inset-0">
+    <div className="relative bg-gradient-to-r from-warm-50 to-sage-50 dark:from-licorice dark:to-night rounded-3xl mx-4 mb-8 overflow-hidden transition-colors">
+      <div className="absolute inset-0 opacity-20 dark:opacity-10">
         <img
-          src="/placeholder.svg?height=400&width=800"
+          src="/placeholder.svg"
           alt="Elegant Furniture"
           className="w-full h-full object-cover opacity-60 dark:opacity-30"
         />
@@ -23,5 +23,5 @@ export function HeroSection() {
         </div>
       </div>
     </div>
-  )
+  );
 }
