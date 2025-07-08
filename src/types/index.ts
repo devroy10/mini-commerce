@@ -5,9 +5,15 @@ export interface Product {
   slug: string;
   price: number;
   image: string;
-  description: string;
   category: string;
-  stock: number;
+  // stock: number;
+  colors?: string[];
+  rating?: number;
+  reviewCount?: number;
+  isNew?: boolean;
+  isFavorite?: boolean;
+  isFeatured?: boolean;
+  description?: string;
 }
 
 // CartItem interface
@@ -22,11 +28,24 @@ export interface Cart {
   total: number;
 }
 
-// Order interface
 export interface Order {
   id: string;
+  userId: string;
   items: CartItem[];
   total: number;
-  date: string;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  createdAt: string;
+  shippingAddress: Address;
+  paymentMethod: string;
+}
+
+export interface Address {
+  firstName: string;
+  lastName: string;
+  address: string;
+  apartment?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
 }
