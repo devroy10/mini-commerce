@@ -1,13 +1,16 @@
 import { BadgeCustom } from '@/components/ui/badge-custom';
+import Image from 'next/image';
 
 export function HeroSection() {
   return (
     <div className="relative bg-gradient-to-r from-warm-50 to-sage-50 dark:from-licorice dark:to-night rounded-3xl mx-4 mb-8 overflow-hidden transition-colors">
       <div className="absolute inset-0 opacity-20 dark:opacity-10">
-        <img
+        <Image
           src="/placeholder.svg"
           alt="Elegant Furniture"
+          fill
           className="w-full h-full object-cover opacity-60 dark:opacity-30"
+          priority
         />
       </div>
       <div className="relative px-8 py-16 md:py-24">

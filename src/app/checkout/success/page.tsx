@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { Layout } from "@/components/layout"
-import { Button } from "@/components/ui/button"
-import { BadgeCustom } from "@/components/ui/badge-custom"
-import { CheckCircle, Package, Truck, Mail } from "lucide-react"
-import Link from "next/link"
+import { Layout } from '@/components/layout';
+import { Button } from '@/components/ui/button';
+import { BadgeCustom } from '@/components/ui/badge-custom';
+import { CheckCircle, Package, Truck, Mail } from 'lucide-react';
+import Link from 'next/link';
 
 export default function CheckoutSuccessPage() {
-  const orderNumber = `ORD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
+  const orderNumber = `ORD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
 
   return (
     <Layout>
@@ -37,7 +37,7 @@ export default function CheckoutSuccessPage() {
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Order Confirmation</h3>
               <p className="text-sm text-gray-600">
-                You'll receive an email confirmation with your order details shortly.
+                You&apos;ll receive an email confirmation with your order details shortly.
               </p>
             </div>
 
@@ -46,7 +46,9 @@ export default function CheckoutSuccessPage() {
                 <Package className="h-6 w-6 text-orange-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Order Processing</h3>
-              <p className="text-sm text-gray-600">We'll prepare your items for shipment within 1-2 business days.</p>
+              <p className="text-sm text-gray-600">
+                We&apos;ll prepare your items for shipment within 1-2 business days.
+              </p>
             </div>
 
             <div className="text-center">
@@ -54,7 +56,9 @@ export default function CheckoutSuccessPage() {
                 <Truck className="h-6 w-6 text-green-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Delivery</h3>
-              <p className="text-sm text-gray-600">Your order will be delivered within 5-7 business days.</p>
+              <p className="text-sm text-gray-600">
+                Your order will be delivered within 5-7 business days.
+              </p>
             </div>
           </div>
         </div>
@@ -69,7 +73,9 @@ export default function CheckoutSuccessPage() {
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Estimated Delivery:</span>
-              <span className="font-medium">{new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}</span>
+              <span className="font-medium">
+                {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Shipping Method:</span>
@@ -94,9 +100,9 @@ export default function CheckoutSuccessPage() {
             Build custom furniture
           </BadgeCustom>
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Craft Own Furniture</h2>
-          <Button className="rounded-full bg-black hover:bg-gray-800 px-8">Let's Talk!</Button>
+          <Button className="rounded-full bg-black hover:bg-gray-800 px-8">Let&apos;s Talk!</Button>
         </div>
       </div>
     </Layout>
-  )
+  );
 }

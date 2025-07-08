@@ -1,100 +1,108 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import { Layout } from "@/components/layout"
-import { useCartStore } from "../../stores/cart-store"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Price } from "@/components/ui/price"
-import { CreditCard, Truck, Shield, ArrowLeft } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useState } from 'react';
+import { Layout } from '@/components/layout';
+import { useCartStore } from '../../stores/cart-store';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Price } from '@/components/ui/price';
+import { CreditCard, Truck, Shield, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface CheckoutFormData {
   // Contact Information
-  email: string
-  phone: string
+  email: string;
+  phone: string;
 
   // Shipping Address
-  firstName: string
-  lastName: string
-  address: string
-  apartment: string
-  city: string
-  state: string
-  zipCode: string
-  country: string
+  firstName: string;
+  lastName: string;
+  address: string;
+  apartment: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
 
   // Payment Information
-  paymentMethod: string
-  cardNumber: string
-  expiryDate: string
-  cvv: string
-  cardName: string
+  paymentMethod: string;
+  cardNumber: string;
+  expiryDate: string;
+  cvv: string;
+  cardName: string;
 
   // Options
-  saveInfo: boolean
-  newsletter: boolean
-  sameAsBilling: boolean
+  saveInfo: boolean;
+  newsletter: boolean;
+  sameAsBilling: boolean;
 }
 
 export default function CheckoutPage() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const items = useCartStore((state) => state.items)
-  const total = useCartStore((state) => state.total)
-  const clearCart = useCartStore((state) => state.clearCart)
+  const items = useCartStore((state) => state.items);
+  const total = useCartStore((state) => state.total);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   const [formData, setFormData] = useState<CheckoutFormData>({
-    email: "",
-    phone: "",
-    firstName: "",
-    lastName: "",
-    address: "",
-    apartment: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    country: "US",
-    paymentMethod: "card",
-    cardNumber: "",
-    expiryDate: "",
-    cvv: "",
-    cardName: "",
+    email: '',
+    phone: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    apartment: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: 'US',
+    paymentMethod: 'card',
+    cardNumber: '',
+    expiryDate: '',
+    cvv: '',
+    cardName: '',
     saveInfo: false,
     newsletter: false,
     sameAsBilling: true,
-  })
+  });
 
-  const [currentStep, setCurrentStep] = useState(1)
-  const [isProcessing, setIsProcessing] = useState(false)
+  // const [currentStep, setCurrentStep] = useState(1);
+  const currentStep = 1;
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const subtotal = total
-  const discount = subtotal * 0.1
-  const deliveryFee = 50
-  const tax = (subtotal - discount) * 0.08
-  const finalTotal = subtotal - discount + deliveryFee + tax
+  const subtotal = total;
+  const discount = subtotal * 0.1;
+  const deliveryFee = 50;
+  const tax = (subtotal - discount) * 0.08;
+  const finalTotal = subtotal - discount + deliveryFee + tax;
 
   const handleInputChange = (field: keyof CheckoutFormData, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsProcessing(true)
+    e.preventDefault();
+    setIsProcessing(true);
 
     // Simulate payment processing
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Clear cart and redirect to success page
-    clearCart()
-    router.push("/checkout/success")
-  }
+    clearCart();
+    router.push('/checkout/success');
+  };
 
   if (items.length === 0) {
     return (
@@ -103,11 +111,13 @@ export default function CheckoutPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h1>
           <p className="text-gray-600 mb-8">Add some items to proceed with checkout</p>
           <Link href="/products">
-            <Button className="bg-black hover:bg-gray-800 rounded-full px-8">Continue Shopping</Button>
+            <Button className="bg-black hover:bg-gray-800 rounded-full px-8">
+              Continue Shopping
+            </Button>
           </Link>
         </div>
       </Layout>
-    )
+    );
   }
 
   return (
@@ -128,14 +138,14 @@ export default function CheckoutPage() {
         <div className="hidden md:block mb-8">
           <div className="flex items-center justify-center space-x-8">
             {[
-              { step: 1, title: "Information", icon: "📝" },
-              { step: 2, title: "Shipping", icon: "🚚" },
-              { step: 3, title: "Payment", icon: "💳" },
+              { step: 1, title: 'Information', icon: '📝' },
+              { step: 2, title: 'Shipping', icon: '🚚' },
+              { step: 3, title: 'Payment', icon: '💳' },
             ].map((item) => (
               <div key={item.step} className="flex items-center">
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium ${
-                    currentStep >= item.step ? "bg-black text-white" : "bg-gray-200 text-gray-600"
+                    currentStep >= item.step ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'
                   }`}
                 >
                   {item.step}
@@ -162,7 +172,7 @@ export default function CheckoutPage() {
                       type="email"
                       required
                       value={formData.email}
-                      onChange={(e) => handleInputChange("email", e.target.value)}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
                       placeholder="john@example.com"
                     />
                   </div>
@@ -173,7 +183,7 @@ export default function CheckoutPage() {
                       type="tel"
                       required
                       value={formData.phone}
-                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
                       placeholder="+1 (555) 123-4567"
                     />
                   </div>
@@ -191,7 +201,7 @@ export default function CheckoutPage() {
                         id="firstName"
                         required
                         value={formData.firstName}
-                        onChange={(e) => handleInputChange("firstName", e.target.value)}
+                        onChange={(e) => handleInputChange('firstName', e.target.value)}
                         placeholder="John"
                       />
                     </div>
@@ -201,7 +211,7 @@ export default function CheckoutPage() {
                         id="lastName"
                         required
                         value={formData.lastName}
-                        onChange={(e) => handleInputChange("lastName", e.target.value)}
+                        onChange={(e) => handleInputChange('lastName', e.target.value)}
                         placeholder="Doe"
                       />
                     </div>
@@ -213,7 +223,7 @@ export default function CheckoutPage() {
                       id="address"
                       required
                       value={formData.address}
-                      onChange={(e) => handleInputChange("address", e.target.value)}
+                      onChange={(e) => handleInputChange('address', e.target.value)}
                       placeholder="123 Main Street"
                     />
                   </div>
@@ -223,7 +233,7 @@ export default function CheckoutPage() {
                     <Input
                       id="apartment"
                       value={formData.apartment}
-                      onChange={(e) => handleInputChange("apartment", e.target.value)}
+                      onChange={(e) => handleInputChange('apartment', e.target.value)}
                       placeholder="Apt 4B"
                     />
                   </div>
@@ -235,13 +245,16 @@ export default function CheckoutPage() {
                         id="city"
                         required
                         value={formData.city}
-                        onChange={(e) => handleInputChange("city", e.target.value)}
+                        onChange={(e) => handleInputChange('city', e.target.value)}
                         placeholder="New York"
                       />
                     </div>
                     <div>
                       <Label htmlFor="state">State *</Label>
-                      <Select value={formData.state} onValueChange={(value) => handleInputChange("state", value)}>
+                      <Select
+                        value={formData.state}
+                        onValueChange={(value) => handleInputChange('state', value)}
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Select state" />
                         </SelectTrigger>
@@ -259,7 +272,7 @@ export default function CheckoutPage() {
                         id="zipCode"
                         required
                         value={formData.zipCode}
-                        onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                        onChange={(e) => handleInputChange('zipCode', e.target.value)}
                         placeholder="10001"
                       />
                     </div>
@@ -274,7 +287,10 @@ export default function CheckoutPage() {
                   <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg">
                     <RadioGroupItem value="standard" id="standard" />
                     <div className="flex-1">
-                      <Label htmlFor="standard" className="flex items-center justify-between cursor-pointer">
+                      <Label
+                        htmlFor="standard"
+                        className="flex items-center justify-between cursor-pointer"
+                      >
                         <div className="flex items-center">
                           <Truck className="h-5 w-5 mr-3 text-gray-600" />
                           <div>
@@ -289,7 +305,10 @@ export default function CheckoutPage() {
                   <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg">
                     <RadioGroupItem value="express" id="express" />
                     <div className="flex-1">
-                      <Label htmlFor="express" className="flex items-center justify-between cursor-pointer">
+                      <Label
+                        htmlFor="express"
+                        className="flex items-center justify-between cursor-pointer"
+                      >
                         <div className="flex items-center">
                           <Truck className="h-5 w-5 mr-3 text-gray-600" />
                           <div>
@@ -310,7 +329,7 @@ export default function CheckoutPage() {
 
                 <RadioGroup
                   value={formData.paymentMethod}
-                  onValueChange={(value) => handleInputChange("paymentMethod", value)}
+                  onValueChange={(value) => handleInputChange('paymentMethod', value)}
                   className="mb-6"
                 >
                   <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg">
@@ -331,7 +350,7 @@ export default function CheckoutPage() {
                   </div>
                 </RadioGroup>
 
-                {formData.paymentMethod === "card" && (
+                {formData.paymentMethod === 'card' && (
                   <div className="space-y-4">
                     <div>
                       <Label htmlFor="cardNumber">Card Number *</Label>
@@ -339,7 +358,7 @@ export default function CheckoutPage() {
                         id="cardNumber"
                         required
                         value={formData.cardNumber}
-                        onChange={(e) => handleInputChange("cardNumber", e.target.value)}
+                        onChange={(e) => handleInputChange('cardNumber', e.target.value)}
                         placeholder="1234 5678 9012 3456"
                       />
                     </div>
@@ -350,7 +369,7 @@ export default function CheckoutPage() {
                           id="expiryDate"
                           required
                           value={formData.expiryDate}
-                          onChange={(e) => handleInputChange("expiryDate", e.target.value)}
+                          onChange={(e) => handleInputChange('expiryDate', e.target.value)}
                           placeholder="MM/YY"
                         />
                       </div>
@@ -360,7 +379,7 @@ export default function CheckoutPage() {
                           id="cvv"
                           required
                           value={formData.cvv}
-                          onChange={(e) => handleInputChange("cvv", e.target.value)}
+                          onChange={(e) => handleInputChange('cvv', e.target.value)}
                           placeholder="123"
                         />
                       </div>
@@ -371,7 +390,7 @@ export default function CheckoutPage() {
                         id="cardName"
                         required
                         value={formData.cardName}
-                        onChange={(e) => handleInputChange("cardName", e.target.value)}
+                        onChange={(e) => handleInputChange('cardName', e.target.value)}
                         placeholder="John Doe"
                       />
                     </div>
@@ -389,10 +408,13 @@ export default function CheckoutPage() {
                 <div className="space-y-4 mb-6">
                   {items.map((item) => (
                     <div key={item.product.id} className="flex items-center space-x-3">
-                      <img
-                        src={item.product.image || "/placeholder.svg?height=60&width=60"}
+                      <Image
+                        src={item.product.image || '/placeholder.svg'}
                         alt={item.product.name}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 object-cover rounded-lg bg-gray-100"
+                        priority={false}
                       />
                       <div className="flex-1">
                         <h4 className="font-medium text-sm">{item.product.name}</h4>
@@ -444,8 +466,8 @@ export default function CheckoutPage() {
                   className="w-full bg-black hover:bg-gray-800 text-white rounded-full py-3"
                 >
                   {isProcessing
-                    ? "Processing..."
-                    : `Place Order • ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(finalTotal)}`}
+                    ? 'Processing...'
+                    : `Place Order • ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(finalTotal)}`}
                 </Button>
 
                 <p className="text-xs text-gray-500 text-center mt-4">
@@ -457,5 +479,5 @@ export default function CheckoutPage() {
         </form>
       </div>
     </Layout>
-  )
+  );
 }

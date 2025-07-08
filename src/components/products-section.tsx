@@ -1,22 +1,22 @@
-"use client"
+'use client';
 
-import { useState, useMemo } from "react"
-import { FilterSidebar } from "@/components/filter-sidebar"
-import { ProductCard } from "@/components/product-card"
-import { Button } from "@/components/ui/button"
-import { ErrorMessage } from "@/components/ui/error-message"
-import { ProductSkeleton } from "@/components/ui/product-skeleton"
-import { MobileFilterModal } from "@/components/mobile-filter-modal"
-import { useFilteredProducts } from "../hooks/use-products-query"
-import type { Product } from "../types"
+import { useState, useMemo } from 'react';
+import { FilterSidebar } from '@/components/filter-sidebar';
+import { ProductCard } from '@/components/product-card';
+import { Button } from '@/components/ui/button';
+import { ErrorMessage } from '@/components/ui/error-message';
+import { ProductSkeleton } from '@/components/ui/product-skeleton';
+import { MobileFilterModal } from '@/components/mobile-filter-modal';
+import { useFilteredProducts } from '../hooks/use-products-query';
+import type { Product } from '../types';
 
 interface ProductsSectionProps {
-  products?: Product[] // Optional - if provided, use these instead of fetching
-  title?: string
-  description?: string
-  showFilters?: boolean
-  maxProducts?: number
-  className?: string
+  products?: Product[]; // Optional - if provided, use these instead of fetching
+  title?: string;
+  description?: string;
+  showFilters?: boolean;
+  maxProducts?: number;
+  className?: string;
 }
 
 export function ProductsSection({
@@ -25,52 +25,70 @@ export function ProductsSection({
   description,
   showFilters = true,
   maxProducts,
-  className = "",
+  className = '',
 }: ProductsSectionProps) {
   const [filters, setFilters] = useState({
-    categories: ["all"],
-    priceRange: [200, 600] as [number, number],
+    categories: ['all'],
+    priceRange: [0, 1000] as [number, number],
     colors: [] as string[],
-  })
+  });
+
+  // Fix: wrapper to adapt filterTypes to state
+  const handleFiltersChange = (filtersArg: {
+    categories: string[];
+    priceRange: number[];
+    colors: string[];
+  }) => {
+    setFilters({
+      categories: filtersArg.categories,
+      priceRange: [filtersArg.priceRange[0] ?? 0, filtersArg.priceRange[1] ?? 1000],
+      colors: filtersArg.colors,
+    });
+  };
 
   // Use provided products or fetch from API
-  const queryResult = useFilteredProducts(filters)
-  const { data: fetchedProducts, isLoading, error, refetch } = queryResult
+  const queryResult = useFilteredProducts(filters);
+  const { data: fetchedProducts, isLoading, error, refetch } = queryResult;
 
-  // Use provided products or fetched products
-  const allProducts = providedProducts || fetchedProducts || []
+  const allProducts = useMemo(
+    () => providedProducts || fetchedProducts || [],
+    [providedProducts, fetchedProducts],
+  );
 
   // Apply filtering to provided products if they exist
   const filteredProducts = useMemo(() => {
-    let filtered = allProducts
+    let filtered = allProducts;
 
     // Apply client-side filtering if we have provided products
     if (providedProducts) {
       filtered = providedProducts.filter((product) => {
         // Category filter
         const categoryMatch =
-          filters.categories.includes("all") ||
-          filters.categories.some((cat) => product.category.toLowerCase().includes(cat.toLowerCase()))
+          filters.categories.includes('all') ||
+          filters.categories.some((cat) =>
+            product.category.toLowerCase().includes(cat.toLowerCase()),
+          );
 
         // Price filter
-        const priceMatch = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1]
+        const priceMatch =
+          product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
 
         // Color filter
         const colorMatch =
           filters.colors.length === 0 ||
-          (product.colors && product.colors.some((color) => filters.colors.includes(color)))
+          (product.colors && product.colors.some((color) => filters.colors.includes(color)));
 
-        return categoryMatch && priceMatch && colorMatch
-      })
+        return categoryMatch && priceMatch && colorMatch;
+      });
     }
 
     // Apply max products limit
     if (maxProducts) {
-      filtered = filtered.slice(0, maxProducts)
+      filtered = filtered.slice(0, maxProducts);
     }
 
-    return filtered
-  }, [allProducts, providedProducts, filters, maxProducts])
+    return filtered;
+  }, [allProducts, providedProducts, filters, maxProducts]);
 
   // Show loading state only when fetching data (not when using provided products)
   if (!providedProducts && isLoading) {
@@ -98,7 +116,7 @@ export function ProductsSection({
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   // Show error state only when fetching data fails
@@ -111,7 +129,7 @@ export function ProductsSection({
           onRetry={() => refetch()}
         />
       </div>
-    )
+    );
   }
 
   return (
@@ -121,7 +139,7 @@ export function ProductsSection({
         {showFilters && (
           <div className="hidden lg:block lg:w-80 flex-shrink-0">
             <div className="bg-white dark:bg-licorice rounded-2xl p-6 sticky top-8 border border-gray-100 dark:border-licorice/50">
-              <FilterSidebar onFiltersChange={setFilters} />
+              <FilterSidebar onFiltersChange={handleFiltersChange} />
             </div>
           </div>
         )}
@@ -147,11 +165,15 @@ export function ProductsSection({
 
           {filteredProducts.length === 0 && !isLoading && (
             <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-silver text-lg">No products found matching your filters.</p>
+              <p className="text-gray-500 dark:text-silver text-lg">
+                No products found matching your filters.
+              </p>
               <Button
                 variant="outline"
                 className="mt-4 bg-transparent border-gray-300 dark:border-silver/30 text-gray-700 dark:text-silver hover:bg-gray-50 dark:hover:bg-licorice/50"
-                onClick={() => setFilters({ categories: ["all"], priceRange: [200, 600], colors: [] })}
+                onClick={() =>
+                  setFilters({ categories: ['all'], priceRange: [200, 600], colors: [] })
+                }
               >
                 Clear Filters
               </Button>
@@ -161,7 +183,7 @@ export function ProductsSection({
       </div>
 
       {/* Mobile Filter Modal */}
-      {showFilters && <MobileFilterModal onFiltersChange={setFilters} />}
+      {showFilters && <MobileFilterModal onFiltersChange={handleFiltersChange} />}
     </>
-  )
+  );
 }
