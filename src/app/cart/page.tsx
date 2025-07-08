@@ -1,26 +1,27 @@
-"use client"
+'use client';
 
-import { Layout } from "@/components/layout"
-import { useCartStore } from "../../stores/cart-store"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Price } from "@/components/ui/price"
-import { QuantitySelector } from "@/components/ui/quantity-selector"
-import { BadgeCustom } from "@/components/ui/badge-custom"
-import { Trash2 } from "lucide-react"
-import Link from "next/link"
+import { Layout } from '@/components/layout';
+import { useCartStore } from '../../stores/cart-store';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Price } from '@/components/ui/price';
+import { QuantitySelector } from '@/components/ui/quantity-selector';
+import { BadgeCustom } from '@/components/ui/badge-custom';
+import { Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function CartPage() {
-  const items = useCartStore((state) => state.items)
-  const total = useCartStore((state) => state.total)
-  const updateQuantity = useCartStore((state) => state.updateQuantity)
-  const removeFromCart = useCartStore((state) => state.removeFromCart)
+  const items = useCartStore((state) => state.items);
+  const total = useCartStore((state) => state.total);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
 
-  const subtotal = total
-  const discount = subtotal * 0.1 // 10% discount
-  const deliveryFee = 50
-  const finalTotal = subtotal - discount + deliveryFee
+  const subtotal = total;
+  const discount = subtotal * 0.1; // 10% discount
+  const deliveryFee = 50;
+  const finalTotal = subtotal - discount + deliveryFee;
 
   if (items.length === 0) {
     return (
@@ -29,11 +30,13 @@ export default function CartPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h1>
           <p className="text-gray-600 mb-8">Add some beautiful furniture to get started!</p>
           <Link href="/products">
-            <Button className="bg-black hover:bg-gray-800 rounded-full px-8">Continue Shopping</Button>
+            <Button className="bg-black hover:bg-gray-800 rounded-full px-8">
+              Continue Shopping
+            </Button>
           </Link>
         </div>
       </Layout>
-    )
+    );
   }
 
   return (
@@ -64,10 +67,13 @@ export default function CartPage() {
                     {/* Mobile Card Layout */}
                     <div className="block lg:hidden bg-gray-50 rounded-xl p-4 shadow-sm">
                       <div className="flex items-center space-x-4 mb-2">
-                        <img
-                          src={item.product.image || "/placeholder.svg?height=80&width=80"}
+                        <Image
+                          src={item.product.image || '/placeholder.svg'}
                           alt={item.product.name}
+                          width={64}
+                          height={64}
                           className="w-16 h-16 object-cover rounded-lg bg-gray-100"
+                          priority={false}
                         />
                         <div>
                           <h3 className="font-semibold text-gray-900">{item.product.name}</h3>
@@ -99,14 +105,19 @@ export default function CartPage() {
                     {/* Desktop Table Row Layout */}
                     <>
                       <div className="hidden lg:flex col-span-6 items-center space-x-4">
-                        <img
-                          src={item.product.image || "/placeholder.svg?height=80&width=80"}
+                        <Image
+                          src={item.product.image || '/placeholder.svg'}
                           alt={item.product.name}
+                          width={64}
+                          height={64}
                           className="w-16 h-16 object-cover rounded-lg bg-gray-100"
+                          priority={false}
                         />
                         <div>
                           <h3 className="font-semibold text-gray-900">{item.product.name}</h3>
-                          <p className="text-sm text-gray-600">Set • Colour: {item.product.category}</p>
+                          <p className="text-sm text-gray-600">
+                            Set • Colour: {item.product.category}
+                          </p>
                         </div>
                       </div>
                       <div className="hidden lg:flex col-span-2 justify-center">
@@ -135,7 +146,10 @@ export default function CartPage() {
 
               {/* Update Cart Button */}
               <div className="mt-6">
-                <Button variant="outline" className="bg-black text-white hover:bg-gray-800 rounded-full px-8">
+                <Button
+                  variant="outline"
+                  className="bg-black text-white hover:bg-gray-800 rounded-full px-8"
+                >
                   Update Cart
                 </Button>
               </div>
@@ -186,7 +200,8 @@ export default function CartPage() {
                 <div className="flex items-start space-x-2">
                   <Checkbox id="warranty" />
                   <label htmlFor="warranty" className="text-sm text-gray-600 leading-relaxed">
-                    <span className="font-medium">90 Day Limited Warranty</span> against manufacturer's defects{" "}
+                    <span className="font-medium">90 Day Limited Warranty</span> against
+                    manufacturer&apos;s defects{' '}
                     <button className="text-blue-600 hover:underline">Details</button>
                   </label>
                 </div>
@@ -194,7 +209,9 @@ export default function CartPage() {
 
               {/* Checkout Button */}
               <Link href="/checkout">
-                <Button className="w-full bg-black hover:bg-gray-800 text-white rounded-full py-3">Checkout Now</Button>
+                <Button className="w-full bg-black hover:bg-gray-800 text-white rounded-full py-3">
+                  Checkout Now
+                </Button>
               </Link>
             </div>
           </div>
@@ -206,9 +223,9 @@ export default function CartPage() {
             Build custom furniture
           </BadgeCustom>
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Craft Own Furniture</h2>
-          <Button className="rounded-full bg-black hover:bg-gray-800 px-8">Let's Talk!</Button>
+          <Button className="rounded-full bg-black hover:bg-gray-800 px-8">Let&apos;s Talk!</Button>
         </div>
       </div>
     </Layout>
-  )
+  );
 }

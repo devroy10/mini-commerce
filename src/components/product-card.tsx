@@ -1,53 +1,54 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { BadgeCustom } from "@/components/ui/badge-custom"
-import { Price } from "@/components/ui/price"
-import { Heart, ShoppingCart } from "lucide-react"
-import { cn } from "@/lib/utils"
-import type { Product } from "../types"
-import { useCartStore } from "../stores/cart-store"
-import Link from "next/link"
+import { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { BadgeCustom } from '@/components/ui/badge-custom';
+import { Price } from '@/components/ui/price';
+import { Heart, ShoppingCart } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import type { Product } from '../types';
+import { useCartStore } from '../stores/cart-store';
+import Link from 'next/link';
+import Image from 'next/image';
 
 interface ProductCardProps {
-  product: Product
-  className?: string
+  product: Product;
+  className?: string;
 }
 
 export function ProductCard({ product, className }: ProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
-  const [isFavorite, setIsFavorite] = useState(product.isFavorite || false)
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(product.isFavorite || false);
 
-  const addToCart = useCartStore((state) => state.addToCart)
-  const isInCart = useCartStore((state) => state.isInCart(product.id))
+  const addToCart = useCartStore((state) => state.addToCart);
+  const isInCart = useCartStore((state) => state.isInCart(product.id));
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsFavorite(!isFavorite)
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    setIsFavorite(!isFavorite);
+  };
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    addToCart(product)
-  }
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product);
+  };
 
   const renderStars = (rating: number) => {
-    const stars = []
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 !== 0
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
 
     for (let i = 0; i < fullStars; i++) {
       stars.push(
         <span key={i} className="text-yellow-400">
           ★
         </span>,
-      )
+      );
     }
 
     if (hasHalfStar) {
@@ -55,26 +56,26 @@ export function ProductCard({ product, className }: ProductCardProps) {
         <span key="half" className="text-yellow-400">
           ☆
         </span>,
-      )
+      );
     }
 
-    const remainingStars = 5 - Math.ceil(rating)
+    const remainingStars = 5 - Math.ceil(rating);
     for (let i = 0; i < remainingStars; i++) {
       stars.push(
         <span key={`empty-${i}`} className="text-gray-300 dark:text-silver/50">
           ☆
         </span>,
-      )
+      );
     }
 
-    return stars
-  }
+    return stars;
+  };
 
   return (
     <Link href={`/products/${product.slug}`}>
       <Card
         className={cn(
-          "group cursor-pointer transition-all duration-300 hover:shadow-lg border-0 bg-white dark:bg-licorice rounded-2xl overflow-hidden",
+          'group cursor-pointer transition-all duration-300 hover:shadow-lg border-0 bg-white dark:bg-licorice rounded-2xl overflow-hidden',
           className,
         )}
         onMouseEnter={() => setIsHovered(true)}
@@ -83,10 +84,13 @@ export function ProductCard({ product, className }: ProductCardProps) {
         <CardContent className="p-0">
           {/* Image Container */}
           <div className="relative aspect-square bg-gray-100 dark:bg-night rounded-2xl m-4 mb-0 overflow-hidden">
-            <img
-              src={product.image || "/placeholder.svg"}
+            <Image
+              src={product.image || '/placeholder.svg'}
               alt={product.name}
+              width={500}
+              height={500}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              priority
             />
 
             {/* Badges */}
@@ -112,19 +116,19 @@ export function ProductCard({ product, className }: ProductCardProps) {
               size="sm"
               onClick={handleFavoriteClick}
               className={cn(
-                "absolute top-3 right-3 h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-licorice/90 backdrop-blur-sm transition-all",
-                "hover:bg-white dark:hover:bg-licorice hover:scale-110",
-                isFavorite && "text-red-500",
+                'absolute top-3 right-3 h-8 w-8 p-0 rounded-full bg-white/90 dark:bg-licorice/90 backdrop-blur-sm transition-all',
+                'hover:bg-white dark:hover:bg-licorice hover:scale-110',
+                isFavorite && 'text-red-500',
               )}
             >
-              <Heart className={cn("h-4 w-4", isFavorite && "fill-current")} />
+              <Heart className={cn('h-4 w-4', isFavorite && 'fill-current')} />
             </Button>
 
             {/* Add to Cart Button - Shows on Hover */}
             <div
               className={cn(
-                "absolute bottom-3 left-3 right-3 transition-all duration-300",
-                isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
+                'absolute bottom-3 left-3 right-3 transition-all duration-300',
+                isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2',
               )}
             >
               <Button
@@ -133,7 +137,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
                 size="sm"
               >
                 <ShoppingCart className="h-4 w-4 mr-2" />
-                {isInCart ? "Add More" : "Add to Cart"}
+                {isInCart ? 'Add More' : 'Add to Cart'}
               </Button>
             </div>
           </div>
@@ -166,7 +170,9 @@ export function ProductCard({ product, className }: ProductCardProps) {
                     />
                   ))}
                   {product.colors.length > 3 && (
-                    <span className="text-xs text-gray-500 dark:text-silver ml-1">+{product.colors.length - 3}</span>
+                    <span className="text-xs text-gray-500 dark:text-silver ml-1">
+                      +{product.colors.length - 3}
+                    </span>
                   )}
                 </div>
               )}
@@ -175,5 +181,5 @@ export function ProductCard({ product, className }: ProductCardProps) {
         </CardContent>
       </Card>
     </Link>
-  )
+  );
 }

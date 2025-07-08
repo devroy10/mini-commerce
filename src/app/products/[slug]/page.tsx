@@ -1,28 +1,28 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { useParams } from "next/navigation"
-import { Layout } from "@/components/layout"
-import { ImageGallery } from "@/components/image-gallery"
-import { BadgeCustom } from "@/components/ui/badge-custom"
-import { Price } from "@/components/ui/price"
-import { QuantitySelector } from "@/components/ui/quantity-selector"
-import { ColorSelector } from "@/components/ui/color-selector"
-import { Button } from "@/components/ui/button"
-import { AccordionCustom } from "@/components/ui/accordion-custom"
-import { ProductCard } from "@/components/product-card"
-import { ErrorMessage } from "@/components/ui/error-message"
-import { ProductSkeleton } from "@/components/ui/product-skeleton"
-import { useCartStore } from "../../../stores/cart-store"
-import { useProductBySlug, useProductsByCategory } from "../../../hooks/use-products-query"
-import { Star } from "lucide-react"
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { Layout } from '@/components/layout';
+import { ImageGallery } from '@/components/image-gallery';
+import { BadgeCustom } from '@/components/ui/badge-custom';
+import { Price } from '@/components/ui/price';
+import { QuantitySelector } from '@/components/ui/quantity-selector';
+import { ColorSelector } from '@/components/ui/color-selector';
+import { Button } from '@/components/ui/button';
+import { AccordionCustom } from '@/components/ui/accordion-custom';
+import { ProductCard } from '@/components/product-card';
+import { ErrorMessage } from '@/components/ui/error-message';
+import { ProductSkeleton } from '@/components/ui/product-skeleton';
+import { useCartStore } from '../../../stores/cart-store';
+import { useProductBySlug, useProductsByCategory } from '../../../hooks/use-products-query';
+import { Star } from 'lucide-react';
 
 export default function ProductDetailsPage() {
-  const params = useParams()
-  const [quantity, setQuantity] = useState(1)
-  const [selectedColor, setSelectedColor] = useState("")
+  const params = useParams();
+  const [quantity, setQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState('');
 
-  const addToCart = useCartStore((state) => state.addToCart)
+  const addToCart = useCartStore((state) => state.addToCart);
 
   // Fetch product by slug
   const {
@@ -30,13 +30,16 @@ export default function ProductDetailsPage() {
     isLoading: productLoading,
     error: productError,
     refetch: refetchProduct,
-  } = useProductBySlug(params.slug as string)
+  } = useProductBySlug(params.slug as string);
 
   // Fetch similar products by category (only if we have a product)
-  const { data: similarProducts, isLoading: similarLoading } = useProductsByCategory(product?.category || "")
+  const { data: similarProducts, isLoading: similarLoading } = useProductsByCategory(
+    product?.category || '',
+  );
 
   // Filter out current product from similar products
-  const filteredSimilarProducts = similarProducts?.filter((p) => p.slug !== product?.slug).slice(0, 3) || []
+  const filteredSimilarProducts =
+    similarProducts?.filter((p) => p.slug !== product?.slug).slice(0, 3) || [];
 
   if (productLoading) {
     return (
@@ -85,7 +88,7 @@ export default function ProductDetailsPage() {
           </div>
         </div>
       </Layout>
-    )
+    );
   }
 
   if (productError || !product) {
@@ -99,109 +102,110 @@ export default function ProductDetailsPage() {
           />
         </div>
       </Layout>
-    )
+    );
   }
 
   // Mock additional images for gallery
   const productImages = [
     product.image,
-    "/placeholder.svg?height=400&width=400",
-    "/placeholder.svg?height=400&width=400",
-    "/placeholder.svg?height=400&width=400",
+    "/placeholder.svg",
+    "/placeholder.svg",
+    "/placeholder.svg",
   ]
 
   // Mock color options
   const colorOptions = [
-    { id: "sage", name: "Sage Green", value: "#a3b2a3" },
-    { id: "teal", name: "Teal", value: "#20b2aa" },
-    { id: "mint", name: "Mint Green", value: "#98fb98" },
-    { id: "blue", name: "Sky Blue", value: "#87ceeb" },
-  ]
+    { id: 'sage', name: 'Sage Green', value: '#a3b2a3' },
+    { id: 'teal', name: 'Teal', value: '#20b2aa' },
+    { id: 'mint', name: 'Mint Green', value: '#98fb98' },
+    { id: 'blue', name: 'Sky Blue', value: '#87ceeb' },
+  ];
 
   const handleAddToCart = () => {
-    addToCart(product, quantity)
-  }
+    addToCart(product, quantity);
+  };
 
   const renderStars = (rating: number) => {
-    const stars = []
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 !== 0
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
 
     for (let i = 0; i < fullStars; i++) {
-      stars.push(<Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />)
+      stars.push(<Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />);
     }
 
     if (hasHalfStar) {
-      stars.push(<Star key="half" className="h-4 w-4 fill-yellow-400/50 text-yellow-400" />)
+      stars.push(<Star key="half" className="h-4 w-4 fill-yellow-400/50 text-yellow-400" />);
     }
 
-    const remainingStars = 5 - Math.ceil(rating)
+    const remainingStars = 5 - Math.ceil(rating);
     for (let i = 0; i < remainingStars; i++) {
-      stars.push(<Star key={`empty-${i}`} className="h-4 w-4 text-gray-300" />)
+      stars.push(<Star key={`empty-${i}`} className="h-4 w-4 text-gray-300" />);
     }
 
-    return stars
-  }
+    return stars;
+  };
 
   const accordionItems = [
     {
-      id: "additional-info",
-      title: "Additional Information",
+      id: 'additional-info',
+      title: 'Additional Information',
       defaultOpen: true,
       content: (
         <p>
-          The right coffee table can add the perfect finishing touch to your living room. Some of the latest trends
-          include lift-top tables, storage tables and tables with mid-century or rustic designs. If you have been
-          looking for a coffee table that is in line with the latest trends, you probably know that the choice is
-          endless.
+          The right coffee table can add the perfect finishing touch to your living room. Some of
+          the latest trends include lift-top tables, storage tables and tables with mid-century or
+          rustic designs. If you have been looking for a coffee table that is in line with the
+          latest trends, you probably know that the choice is endless.
         </p>
       ),
     },
     {
-      id: "designer",
-      title: "Designer",
+      id: 'designer',
+      title: 'Designer',
       content: (
         <div>
           <p className="mb-2">
             <strong>Designer:</strong> Modern Furniture Co.
           </p>
           <p>
-            Our design team specializes in creating contemporary furniture pieces that blend functionality with
-            aesthetic appeal. Each piece is carefully crafted to meet modern living standards.
+            Our design team specializes in creating contemporary furniture pieces that blend
+            functionality with aesthetic appeal. Each piece is carefully crafted to meet modern
+            living standards.
           </p>
         </div>
       ),
     },
     {
-      id: "usability",
-      title: "Usability",
+      id: 'usability',
+      title: 'Usability',
       content: (
         <div>
           <p className="mb-2">
-            <strong>Dimensions:</strong> 24" W x 20" D x 32" H
+            <strong>Dimensions:</strong> 24&quot; W x 20&quot; D x 32&quot; H
           </p>
           <p className="mb-2">
             <strong>Weight Capacity:</strong> 250 lbs
           </p>
           <p>
-            <strong>Care Instructions:</strong> Clean with a soft, dry cloth. Avoid harsh chemicals and direct sunlight
-            to maintain the finish.
+            <strong>Care Instructions:</strong> Clean with a soft, dry cloth. Avoid harsh chemicals
+            and direct sunlight to maintain the finish.
           </p>
         </div>
       ),
     },
     {
-      id: "home-decoration",
-      title: "Home Decoration",
+      id: 'home-decoration',
+      title: 'Home Decoration',
       content: (
         <p>
-          This versatile piece complements various interior design styles, from minimalist to mid-century modern. Its
-          neutral tones make it easy to integrate into existing decor, while its unique design serves as a statement
-          piece in any room.
+          This versatile piece complements various interior design styles, from minimalist to
+          mid-century modern. Its neutral tones make it easy to integrate into existing decor, while
+          its unique design serves as a statement piece in any room.
         </p>
       ),
     },
-  ]
+  ];
 
   return (
     <Layout>
@@ -241,13 +245,13 @@ export default function ProductDetailsPage() {
 
               <p className="text-gray-600 mb-4">
                 {product.description ||
-                  "Browse through our carefully curated collection of high-quality furniture featuring the latest trends and style."}
+                  'Browse through our carefully curated collection of high-quality furniture featuring the latest trends and style.'}
               </p>
 
               {/* Rating */}
               <div className="flex items-center space-x-2 mb-6">
                 <div className="flex space-x-1">{renderStars(product.rating || 4.5)}</div>
-                <span className="text-gray-600">({product.reviewCount || "4.5k"} reviews)</span>
+                <span className="text-gray-600">({product.reviewCount || '4.5k'} reviews)</span>
               </div>
 
               {/* Color Selector */}
@@ -298,9 +302,9 @@ export default function ProductDetailsPage() {
             Build custom furniture
           </BadgeCustom>
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Craft Own Furniture</h2>
-          <Button className="rounded-full bg-black hover:bg-gray-800 px-8">Let's Talk!</Button>
+          <Button className="rounded-full bg-black hover:bg-gray-800 px-8">Let&apos;s Talk!</Button>
         </div>
       </div>
     </Layout>
-  )
+  );
 }

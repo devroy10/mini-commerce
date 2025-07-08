@@ -33,9 +33,9 @@ export default function ProductsPage() {
             Build custom furniture
           </BadgeCustom>
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Craft Own Furniture</h2>
-          <Button className="rounded-full bg-black hover:bg-gray-800 px-8">Let's Talk!</Button>
+          <Button className="rounded-full bg-black hover:bg-gray-800 px-8">Let&apos;s Talk!</Button>
         </div>
       </div>
     </Layout>
-  )
+  );
 }
