@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 
 import './globals.css';
 import ClientLayout from './ClientLayout';
+import { siteConfig } from '@/config/site.config';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -17,8 +18,42 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Mini commerce',
-  description: 'Ecommere platorm for just the all speciic products you want ',
+  metadataBase: new URL(siteConfig.origin),
+  title: siteConfig.title,
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  creator: siteConfig.name,
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+  },
+  openGraph: {
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: siteConfig.origin,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: siteConfig.og,
+        width: 2880,
+        height: 1800,
+        alt: siteConfig.name,
+      },
+    ],
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: {
+      url: siteConfig.og,
+      width: 2880,
+      height: 1800,
+      alt: siteConfig.name,
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
