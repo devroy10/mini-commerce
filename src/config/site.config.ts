@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
   description:
     'Simplify your shopping. Mini Commerce curates only the essential products tailored to your lifestyle',
   origin: 'https://mini-commerce-two.vercel.app/',
-  keywords: ['ecommerce', 'furnitures', 'small shop', 'shopiy store'],
+  keywords: ['ecommerce', 'furnitures', 'small shop', 'shopify store'],
   og: 'https://mini-commerce-two.vercel.app/og.png',
   creator: {
     name: 'devroy10',
