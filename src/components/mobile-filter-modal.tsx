@@ -5,19 +5,20 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { FilterSidebar } from "@/components/filter-sidebar"
 import { MobileFilterButton } from "@/components/mobile-filter-button"
-import { X, RotateCcw } from "lucide-react"
+import { RotateCcw } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { filterTypes } from "@/types"
 
 interface MobileFilterModalProps {
-  onFiltersChange?: (filters: any) => void
-  className?: string
+  onFiltersChange?: (filters: filterTypes) => void;
+  className?: string;
 }
 
 export function MobileFilterModal({ onFiltersChange, className }: MobileFilterModalProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [currentFilters, setCurrentFilters] = useState({
+  const [currentFilters, setCurrentFilters] = useState<filterTypes>({
     categories: ["all"],
-    priceRange: [200, 600] as [number, number],
+    priceRange: [0, 1000] as [number, number],
     colors: [] as string[],
   })
 
@@ -41,10 +42,10 @@ export function MobileFilterModal({ onFiltersChange, className }: MobileFilterMo
     return count
   }
 
-  const handleFiltersChange = (filters: any) => {
-    setCurrentFilters(filters)
-    onFiltersChange?.(filters)
-  }
+  const handleFiltersChange = (filters: filterTypes) => {
+    setCurrentFilters(filters);
+    onFiltersChange?.(filters);
+  };
 
   const handleClearAll = () => {
     const defaultFilters = {
@@ -88,14 +89,14 @@ export function MobileFilterModal({ onFiltersChange, className }: MobileFilterMo
                     </span>
                   )}
                 </DialogTitle>
-                <Button
+                {/* <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(false)}
                   className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-licorice"
                 >
                   <X className="h-5 w-5 text-gray-600 dark:text-silver" />
-                </Button>
+                </Button> */}
               </div>
             </DialogHeader>
 

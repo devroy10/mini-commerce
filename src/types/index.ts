@@ -50,6 +50,12 @@ export interface Address {
   country: string;
 }
 
+export interface filterTypes {
+  colors: string[];
+  priceRange: [number, number];
+  categories: string[];
+}
+
 export type SiteConfig = {
   name: string;
   title: string;

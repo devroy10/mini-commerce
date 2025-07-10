@@ -7,12 +7,14 @@ import { Slider } from '@/components/ui/slider';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCategories } from '../hooks/use-products-query';
+import { filterTypes } from "@/types"
 
-interface filterTypes {
-  colors: string[];
-  priceRange: number[];
-  categories: string[];
-}
+
+// interface filterTypes {
+//   colors: string[];
+//   priceRange: number[];
+//   categories: string[];
+// }
 
 interface FilterSidebarProps {
   onFiltersChange?: (filters: filterTypes) => void;
@@ -34,7 +36,7 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
     colors: true,
   });
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['all']);
-  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [priceRange, setPriceRange] = useState([0, 1000] as [number, number]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
 
   // Fetch categories from API
@@ -90,7 +92,7 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
   );
 
   const handlePriceChange = useCallback(
-    (value: number[]) => {
+    (value: [number, number]) => {
       setPriceRange(value);
       onFiltersChange?.({
         categories: selectedCategories,
@@ -100,6 +102,7 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
     },
     [selectedCategories, selectedColors, onFiltersChange],
   );
+  console.log(priceRange);
 
   // // Initialize filters and update on change
   // useEffect(() => {
