@@ -13,6 +13,7 @@ import type { Product } from '../types';
 import { useCartStore } from '../stores/cart-store';
 import Link from 'next/link';
 import Image from 'next/image';
+import { sendGTMEvent } from '@next/third-parties/google';
 
 interface ProductCardProps {
   product: Product;
@@ -30,12 +31,14 @@ export function ProductCard({ product, className }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setIsFavorite(!isFavorite);
+    sendGTMEvent({ event: 'product saved', value: product.name })
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
+    sendGTMEvent({ event: 'product carted', value: product.name })
   };
 
   const renderStars = (rating: number) => {
@@ -83,7 +86,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
       >
         <CardContent className="p-0">
           {/* Image Container */}
-          <div className="relative aspect-square bg-gray-100 dark:bg-night rounded-2xl m-4 mb-0 overflow-hidden">
+          <div className="relative aspect-square bg-gray-100 dark:bg-night rounded-2xl m-3 mb-0 overflow-hidden">
             <Image
               src={product.image || '/placeholder.svg'}
               alt={product.name}
@@ -149,7 +152,11 @@ export function ProductCard({ product, className }: ProductCardProps) {
                 {product.name}
               </h3>
 
-              <Price amount={product.price} size="md" className="text-gray-900 dark:text-white" />
+              <Price
+                amount={product.price}
+                size="md"
+                className="text-xl text-gray-900 dark:text-white"
+              />
 
               {/* Rating */}
               {product.rating && (
