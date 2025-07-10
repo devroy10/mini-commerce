@@ -23,8 +23,8 @@ export default function Home() {
         {/* Featured Products Section with Filters */}
         {isLoading ? (
           <div className="flex justify-center items-center py-16">
-            <div className="text-center">
-              <LoadingSpinner size="lg" className="mb-4" />
+            <div className="flex flex-col items-center text-center">
+              <LoadingSpinner size="lg" className="mb-4 text-center" />
               <p className="text-gray-600 dark:text-silver">Loading featured products...</p>
             </div>
           </div>

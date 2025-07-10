@@ -7,8 +7,8 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           {/* Left side - Copyright */}
           <div className="text-sm text-gray-600 dark:text-silver">
-            <p>©2023, All right reserved.</p>
-            <p className="font-medium">SEATIVE DIGITAL</p>
+            <p>©2025, All right reserved.</p>
+            <p className="font-medium">KEYSTIE DIGITAL</p>
           </div>
 
           {/* Center - Social Links */}
