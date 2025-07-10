@@ -3,9 +3,9 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { ThemeToggle } from "@/components/ui/theme-toggle"
+// import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useCartStore } from "../stores/cart-store"
-import { Menu, X, Home, Package, ShoppingCart, User, Heart, Settings, HelpCircle, LogOut } from "lucide-react"
+import { Menu, Home, Package, ShoppingCart, User, Heart, Settings, HelpCircle, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 
@@ -45,7 +45,7 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
     {
       icon: Heart,
       label: "Wishlist",
-      href: "/wishlist",
+      href: " #",
       description: "Saved items",
       badge: "3", // Mock wishlist count
     },
@@ -55,19 +55,19 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
     {
       icon: User,
       label: "Profile",
-      href: "/profile",
+      href: " #",
       description: "Manage your account",
     },
     {
       icon: Settings,
       label: "Settings",
-      href: "/settings",
+      href: " #",
       description: "App preferences",
     },
     {
       icon: HelpCircle,
       label: "Help & Support",
-      href: "/help",
+      href: "#",
       description: "Get assistance",
     },
   ]
@@ -99,14 +99,14 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
                   </div>
                   <SheetTitle className="text-lg font-semibold text-gray-900 dark:text-white">mini commerce</SheetTitle>
                 </div>
-                <Button
+                {/* <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setIsOpen(false)}
                   className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-licorice"
                 >
                   <X className="h-5 w-5 text-gray-600 dark:text-silver" />
-                </Button>
+                </Button> */}
               </div>
             </SheetHeader>
 
@@ -170,7 +170,7 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
               </div>
 
               {/* Theme Toggle Section */}
-              <div className="px-6 py-4 border-t border-gray-200 dark:border-licorice/50">
+              {/* <div className="px-6 py-4 border-t border-gray-200 dark:border-licorice/50">
                 <h3 className="text-sm font-medium text-gray-500 dark:text-silver/70 uppercase tracking-wider mb-3">
                   Preferences
                 </h3>
@@ -186,7 +186,7 @@ export function MobileNavMenu({ className }: MobileNavMenuProps) {
                   </div>
                   <ThemeToggle />
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Footer */}
