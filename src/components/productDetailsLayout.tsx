@@ -20,7 +20,7 @@ import { Star } from 'lucide-react';
 export default function ProductDetailsLayout() {
   const params = useParams();
   const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState('');
+  // const [selectedColor, setSelectedColor] = useState('');
 
   const addToCart = useCartStore((state) => state.addToCart);
 
@@ -251,7 +251,8 @@ export default function ProductDetailsLayout() {
 
               {/* Color Selector */}
               <div className="mb-6">
-                <ColorSelector colors={colorOptions} onChange={setSelectedColor} />
+                <ColorSelector colors={colorOptions} />
+                {/* <ColorSelector colors={colorOptions} onChange={setSelectedColor} /> */}
               </div>
 
               {/* Buy Now Button */}
