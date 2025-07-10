@@ -100,8 +100,8 @@ export default function CheckoutPage() {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Clear cart and redirect to success page
-    clearCart();
     router.push('/checkout/success');
+    clearCart();
   };
 
   if (items.length === 0) {

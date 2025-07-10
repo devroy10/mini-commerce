@@ -6,10 +6,11 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { FilterSidebar } from "@/components/filter-sidebar"
 import { Filter, X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { filterTypes } from "@/types"
 
 interface MobileFilterDrawerProps {
-  onFiltersChange?: (filters: any) => void
-  className?: string
+  onFiltersChange?: (filters: filterTypes) => void;
+  className?: string;
 }
 
 export function MobileFilterDrawer({ onFiltersChange, className }: MobileFilterDrawerProps) {

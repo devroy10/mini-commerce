@@ -33,7 +33,6 @@ export function ProductsSection({
     colors: [] as string[],
   });
 
-  // Fix: wrapper to adapt filterTypes to state
   const handleFiltersChange = (filtersArg: {
     categories: string[];
     priceRange: number[];
@@ -172,7 +171,7 @@ export function ProductsSection({
                 variant="outline"
                 className="mt-4 bg-transparent border-gray-300 dark:border-silver/30 text-gray-700 dark:text-silver hover:bg-gray-50 dark:hover:bg-licorice/50"
                 onClick={() =>
-                  setFilters({ categories: ['all'], priceRange: [200, 600], colors: [] })
+                  setFilters({ categories: ['all'], priceRange: [0, 1000], colors: [] })
                 }
               >
                 Clear Filters
