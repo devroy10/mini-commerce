@@ -22,6 +22,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+type shippingType = 'standard' | 'express';
+
+interface shippingDetails {
+  name: string;
+  price: number;
+  duration: string;
+}
+
+// logic usually done in the backend, client calls the exposed endopoint
+const shippingMethods: Record<shippingType, shippingDetails> = {
+  standard: { name: 'Standard Shipping', price: 25, duration: '5-7 business days' },
+  express: { name: 'Express Shipping', price: 50, duration: '2-3 business days' },
+};
+
 interface CheckoutFormData {
   // Contact Information
   email: string;
@@ -36,6 +50,8 @@ interface CheckoutFormData {
   state: string;
   zipCode: string;
   country: string;
+
+  shippingMethod: shippingType;
 
   // Payment Information
   paymentMethod: string;
@@ -67,6 +83,7 @@ export default function CheckoutPage() {
     city: '',
     state: '',
     zipCode: '',
+    shippingMethod: 'standard',
     country: 'US',
     paymentMethod: 'card',
     cardNumber: '',
@@ -84,13 +101,15 @@ export default function CheckoutPage() {
 
   const subtotal = total;
   const discount = subtotal * 0.1;
-  const deliveryFee = 50;
+  const deliveryFee = shippingMethods[formData.shippingMethod].price;
   const tax = (subtotal - discount) * 0.08;
   const finalTotal = subtotal - discount + deliveryFee + tax;
 
   const handleInputChange = (field: keyof CheckoutFormData, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  console.log(formData.shippingMethod);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -218,7 +237,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="address">Address *</Label>
+                    <Label htmlFor="address">Street Address *</Label>
                     <Input
                       id="address"
                       required
@@ -239,23 +258,13 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <Label htmlFor="city">City *</Label>
-                      <Input
-                        id="city"
-                        required
-                        value={formData.city}
-                        onChange={(e) => handleInputChange('city', e.target.value)}
-                        placeholder="New York"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="state">State *</Label>
+                    {/* <div>
+                      <Label htmlFor="state">States *</Label>
                       <Select
                         value={formData.state}
                         onValueChange={(value) => handleInputChange('state', value)}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger aria-labelledby="state-label">
                           <SelectValue placeholder="Select state" />
                         </SelectTrigger>
                         <SelectContent>
@@ -265,6 +274,33 @@ export default function CheckoutPage() {
                           <SelectItem value="FL">Florida</SelectItem>
                         </SelectContent>
                       </Select>
+                    </div> */}
+                    <div>
+                      <Label htmlFor="state">State *</Label>
+                      <Select
+                        value={formData.state}
+                        onValueChange={(value) => handleInputChange('state', value)}
+                      >
+                        <SelectTrigger aria-label="state">
+                          <SelectValue placeholder="Select state" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="NY">New York</SelectItem>
+                          <SelectItem value="CA">California</SelectItem>
+                          <SelectItem value="TX">Texas</SelectItem>
+                          <SelectItem value="FL">Florida</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="city">City *</Label>
+                      <Input
+                        id="city"
+                        required
+                        value={formData.city}
+                        onChange={(e) => handleInputChange('city', e.target.value)}
+                        placeholder="New York"
+                      />
                     </div>
                     <div>
                       <Label htmlFor="zipCode">ZIP Code *</Label>
@@ -283,43 +319,38 @@ export default function CheckoutPage() {
               {/* Shipping Method */}
               <div className="bg-white rounded-2xl p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">Shipping Method</h2>
-                <RadioGroup defaultValue="standard" className="space-y-4">
-                  <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg">
-                    <RadioGroupItem value="standard" id="standard" />
-                    <div className="flex-1">
-                      <Label
-                        htmlFor="standard"
-                        className="flex items-center justify-between cursor-pointer"
-                      >
-                        <div className="flex items-center">
-                          <Truck className="h-5 w-5 mr-3 text-gray-600" />
-                          <div>
-                            <div className="font-medium">Standard Shipping</div>
-                            <div className="text-sm text-gray-600">5-7 business days</div>
+                <RadioGroup
+                  value={formData.shippingMethod}
+                  onValueChange={(value) =>
+                    handleInputChange('shippingMethod', value as shippingType)
+                  }
+                  className="space-y-4"
+                >
+                  {Object.entries(shippingMethods).map(([key, details]) => (
+                    <div
+                      key={key}
+                      className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg"
+                    >
+                      <RadioGroupItem value={key} id={key} />
+                      <div className="flex-1">
+                        <Label
+                          htmlFor={key}
+                          className="flex items-center justify-between cursor-pointer"
+                        >
+                          <div className="flex items-center">
+                            <Truck className="h-5 w-5 mr-3 text-gray-600" />
+                            <div>
+                              <div className="font-medium">{details.name}</div>
+                              <div className="text-sm text-gray-600">
+                                {key === 'standard' ? '5-7 business days' : '2-3 business days'}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <span className="font-medium">$50.00</span>
-                      </Label>
+                          <span className="font-medium">${details.price.toFixed(2)}</span>
+                        </Label>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg">
-                    <RadioGroupItem value="express" id="express" />
-                    <div className="flex-1">
-                      <Label
-                        htmlFor="express"
-                        className="flex items-center justify-between cursor-pointer"
-                      >
-                        <div className="flex items-center">
-                          <Truck className="h-5 w-5 mr-3 text-gray-600" />
-                          <div>
-                            <div className="font-medium">Express Shipping</div>
-                            <div className="text-sm text-gray-600">2-3 business days</div>
-                          </div>
-                        </div>
-                        <span className="font-medium">$25.00</span>
-                      </Label>
-                    </div>
-                  </div>
+                  ))}
                 </RadioGroup>
               </div>
 
