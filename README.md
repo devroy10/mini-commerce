@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**Mini-Commerce** is a frontend-only e-commerce prototype built with Next.js 14 (App Router), React, React Query, Zustand, and Tailwind CSS. It allows users to browse a curated catalogue, view product details, manage a persistent cart, and complete a mock checkout—all with state and data stored in localStorage. No backend is required.
+**Mini-Commerce** is a frontend-only e-commerce prototype built with Next.js 14 (App Router), React, React Query, Zustand, and Tailwind CSS. It allows users to browse a curated catalogue, view product details, manage a persistent cart, and complete a mock checkout, all with state and data stored in localStorage. No backend is required.
 
 **Key Features:**
 
